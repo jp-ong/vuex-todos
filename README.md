@@ -1,5 +1,8 @@
 **Todos with vuex**
 
+**Install Files**
+`npm install; npm install --prefix client`
+
 _Open terminal_
 **Run server**
 `npm run server`
