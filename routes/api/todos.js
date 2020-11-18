@@ -18,14 +18,26 @@ router.get("/filtered/:value", (req, res) => {
   axios
     .get(`https://jsonplaceholder.typicode.com/todos`)
     .then((response) => {
-      if (req.params.value === "completed") {
-        return res.json({
-          todos: response.data.filter((todo) => todo.completed),
-        });
-      } else {
-        return res.json({
-          todos: response.data.filter((todo) => !todo.completed),
-        });
+      const todos = response.data;
+      switch (req.params.value) {
+        case "completed":
+          return res
+            .status(response.status)
+            .json({ todos: todos.filter((todo) => todo.completed) });
+        case "incomplete":
+          return res
+            .status(response.status)
+            .json({ todos: todos.filter((todo) => !todo.completed) });
+        case "odd":
+          return res
+            .status(response.status)
+            .json({ todos: todos.filter((todo) => todo.id % 2 !== 0) });
+        case "even":
+          return res
+            .status(response.status)
+            .json({ todos: todos.filter((todo) => todo.id % 2 === 0) });
+        default:
+          return res.status(response.status).json({ todos });
       }
     })
     .catch((error) =>
